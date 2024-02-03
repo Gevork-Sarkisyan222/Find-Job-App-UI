@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+
+  .Container {
+    padding-top: 40px;
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      // background-color: red;
+      padding: 50px;
+
+      .resume-card {
+        padding-top: 31px;
+        display: flex;
+        justify-content: center;
+        gap: 57px;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+
+@keyframes moveUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
