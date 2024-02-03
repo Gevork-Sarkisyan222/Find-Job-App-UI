@@ -169,7 +169,13 @@ function Home() {
                 <FormLabel>Имя и Фамилия</FormLabel>
                 <Input onChange={(e) => setFullName(e.target.value)} required />
               </FormControl>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '20px',
+                  flexDirection: smallDevice ? 'column' : 'row',
+                }}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <FormLabel>Местопроживание</FormLabel>
                   <Input onChange={(e) => setResidence(e.target.value)} required />
@@ -181,12 +187,20 @@ function Home() {
                   </ConnectMediaButton>
                   {/* <Input  required /> */}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormLabel>Возраст</FormLabel>
-                  <Input type="number" />
-                </div>
+                {!smallDevice && (
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <FormLabel>Возраст</FormLabel>
+                    <Input type="number" />
+                  </div>
+                )}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '20px',
+                  flexDirection: smallDevice ? 'column' : 'row',
+                }}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <FormLabel>Профессия</FormLabel>
                   <Input onChange={(e) => setProfession(e.target.value)} required />
