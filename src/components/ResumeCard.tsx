@@ -18,6 +18,21 @@ import { useSelector } from 'react-redux';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from '.././axios';
+import EditModal from '@mui/joy/Modal';
+
+import ButtonJoy from '@mui/joy/Button';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import Modal from '@mui/joy/Modal';
+import InfoModal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import DialogTitleJoy from '@mui/joy/DialogTitle';
+import DialogContentJoy from '@mui/joy/DialogContent';
+import Stack from '@mui/joy/Stack';
+import DrawIcon from '@mui/icons-material/Draw';
+import TextField from '@mui/material/TextField';
+import BackArrow from '@mui/icons-material/KeyboardBackspace';
 
 interface ResumeProps {
   _id: string;
@@ -101,19 +116,193 @@ const ResumeCard: React.FC<ResumeProps> = ({
     }
   };
 
+  const [openEdit, setOpenEdit] = React.useState<boolean>(false);
+  const [openInfo, setOpenInfo] = React.useState<boolean>(false);
+
+  const handleOpenEditModal = () => {
+    setOpenEdit(true);
+  };
+
+  const handleOpenInfoModal = () => {
+    setOpenInfo(true);
+  };
+
+  // edit section
+  const [titleEdit, setTitleEdit] = React.useState('');
+  const [fullNameEdit, setFullNameEdit] = React.useState('');
+  const [professionEdit, setProfessionEdit] = React.useState('');
+  const [educationEdit, setEducationEdit] = React.useState('');
+  const [salaryEdit, setSalaryEdit] = React.useState('');
+  const [emailEdit, setEmailEdit] = React.useState('');
+  const [instagramEdit, setInstagramEdit] = React.useState('');
+  const [facebookEdit, setFacebookEdit] = React.useState('');
+  const [phoneNumberEdit, setPhoneNumberEdit] = React.useState('');
+  const [descEdit, setDescEdit] = React.useState('');
+
+  // const editResume = async () => {
+  //   try {
+  //     const data = {
+  //       title: titleEdit,
+  //       fullName: fullNameEdit,
+  //       profession: professionEdit,
+  //       education: educationEdit,
+  //       salary: salaryEdit,
+  //       // email: emailEdit,
+  //       // instagram: instagramEdit,
+  //       // facebook: facebookEdit,
+  //       // phoneNumber: phoneNumberEdit,
+  //       desc: descEdit,
+  //     };
+  //     const resume = await axios.patch(`/resume/edit/${_id}`, data);
+  //     setRenderList(resume.data);
+  //   } catch (err) {
+  //     console.warn(err);
+  //     alert('Не удалось изменить резьюме');
+  //   }
+  // };
+
   const editResume = async () => {
     try {
-      const data = {};
-      const resume = await axios.patch(`/resume/edit/${_id}`, data);
-      return resume.data;
+      const data: any = {};
+
+      if (titleEdit !== '') data.title = titleEdit;
+      if (fullNameEdit !== '') data.fullName = fullNameEdit;
+      if (professionEdit !== '') data.profession = professionEdit;
+      if (educationEdit !== '') data.education = educationEdit;
+      if (salaryEdit !== '') data.salary = salaryEdit;
+      if (descEdit !== '') data.data = salaryEdit;
+
+      if (Object.keys(data).length === 0) {
+        console.warn('Нет изменений для сохранения');
+        return;
+      }
+
+      const resume = await axios.patch(`/resume/edit/${_id}`, data).then(() => {
+        window.location.reload();
+      });
+      // setRenderList(resume.data);
     } catch (err) {
       console.warn(err);
-      alert('Не удалось изменить резьюме');
+      alert('Не удалось изменить резюме');
     }
   };
 
   return (
     <>
+      {/* <InfoModal open={openInfo} onClose={() => setOpenInfo(false)}>
+        <ModalDialog>
+          <BackArrow onClick={() => setOpenInfo(false)} sx={{ cursor: 'pointer' }} />
+          <form
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              setOpen(false);
+            }}>
+            <Stack spacing={2}>
+              <FormControl>
+                <FormLabel>Почта</FormLabel>
+                <Input onChange={(e) => setEmailEdit(e.target.value)} defaultValue={email} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Инстаграм</FormLabel>
+                <Input
+                  onChange={(e) => setInstagramEdit(e.target.value)}
+                  defaultValue={instagram}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Фейсбук</FormLabel>
+                <Input onChange={(e) => setFacebookEdit(e.target.value)} defaultValue={facebook} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Номер телефона</FormLabel>
+                <Input
+                  onChange={(e) => setPhoneNumberEdit(e.target.value)}
+                  defaultValue={phoneNumber}
+                />
+              </FormControl>
+              <FormLabel>Доп. Информация</FormLabel>
+              <TextField
+                id="filled-multiline-static"
+                label="Напишите о вас"
+                defaultValue={desc}
+                multiline
+                rows={4}
+                variant="filled"
+                required
+                onChange={(e) => setDescEdit(e.target.value)}
+              />
+              <ButtonJoy onClick={editResume} type="submit">
+                Сохранить часть
+              </ButtonJoy>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </InfoModal> */}
+      {/* ======================== */}
+      <EditModal open={openEdit} onClose={() => setOpenEdit(false)}>
+        <ModalDialog>
+          <DialogTitleJoy>Изменить резьюме</DialogTitleJoy>
+          <form
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              setOpen(false);
+            }}>
+            <Stack spacing={2}>
+              <FormControl>
+                <FormLabel>Загаловок</FormLabel>
+                <Input onChange={(e) => setTitleEdit(e.target.value)} defaultValue={title} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Имя и Фамилия</FormLabel>
+                <Input onChange={(e) => setFullNameEdit(e.target.value)} defaultValue={fullName} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Профессия 💼</FormLabel>
+                <Input
+                  onChange={(e) => setProfessionEdit(e.target.value)}
+                  defaultValue={profession}
+                />
+              </FormControl>
+              <div style={{ display: 'flex', gap: '6px', justifyContent: 'space-around' }}>
+                <FormControl>
+                  <FormLabel>Образование 🎓</FormLabel>
+                  <Input
+                    sx={{ width: '148px' }}
+                    onChange={(e) => setEducationEdit(e.target.value)}
+                    defaultValue={education}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Зарплата 💸</FormLabel>
+                  <Input
+                    sx={{ width: '100px' }}
+                    onChange={(e) => setSalaryEdit(e.target.value)}
+                    defaultValue={salary}
+                  />
+                </FormControl>
+              </div>
+              {/* <ButtonJoy startDecorator={<DrawIcon />} onClick={handleOpenInfoModal}>
+                Доп информация
+              </ButtonJoy> */}
+              <FormLabel>Доп. Информация</FormLabel>
+              <TextField
+                id="filled-multiline-static"
+                label="Напишите о вас"
+                defaultValue={desc}
+                multiline
+                rows={4}
+                variant="filled"
+                required
+                onChange={(e) => setDescEdit(e.target.value)}
+              />
+              <ButtonJoy onClick={editResume} type="submit">
+                Сохранить
+              </ButtonJoy>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </EditModal>
+      {/* ======================= */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -188,7 +377,7 @@ const ResumeCard: React.FC<ResumeProps> = ({
       <Card sx={{ maxWidth: 345 }}>
         {currentUser?.email === userEmail && (
           <div style={{ display: 'flex', gap: '7px', justifyContent: 'flex-end' }}>
-            <EditIcon sx={{ color: '#1976d2', cursor: 'pointer' }} />
+            <EditIcon onClick={handleOpenEditModal} sx={{ color: '#1976d2', cursor: 'pointer' }} />
             <DeleteIcon onClick={deleteResume} sx={{ color: 'red', cursor: 'pointer' }} />
           </div>
         )}

@@ -44,7 +44,7 @@ function Home() {
   const [resumes, setResumes] = useState<ResumeProps[]>([]);
   const [open, setOpen] = React.useState<boolean>(false);
   const smallDevice = useMediaQuery('(max-width:600px)');
-  const [renderList, setRenderList] = useState([]);
+  const [renderList, setRenderList] = useState();
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -151,13 +151,13 @@ function Home() {
           <Input onChange={(e) => setPhoneNumber(e.target.value)} />
           {smallDevice && (
             <>
-              <FormLabel>Профессия</FormLabel>
+              <FormLabel>Профессия 💼</FormLabel>
               <Input onChange={(e) => setProfession(e.target.value)} />
 
-              <FormLabel>Образование</FormLabel>
+              <FormLabel>Образование 🎓</FormLabel>
               <Input onChange={(e) => setEducation(e.target.value)} />
 
-              <FormLabel>Зарплата</FormLabel>
+              <FormLabel>Зарплата 💸</FormLabel>
               <Input onChange={(e) => setSalary(e.target.value)} />
             </>
           )}
@@ -224,15 +224,15 @@ function Home() {
                 {!smallDevice && (
                   <>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <FormLabel>Профессия</FormLabel>
+                      <FormLabel>Профессия 💼</FormLabel>
                       <Input onChange={(e) => setProfession(e.target.value)} required />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <FormLabel>Образование</FormLabel>
+                      <FormLabel>Образование 🎓</FormLabel>
                       <Input onChange={(e) => setEducation(e.target.value)} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <FormLabel>Зарплата</FormLabel>
+                      <FormLabel>Зарплата 💸</FormLabel>
                       <Input onChange={(e) => setSalary(e.target.value)} required />
                     </div>
                   </>
