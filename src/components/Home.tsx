@@ -149,18 +149,31 @@ function Home() {
 
           <FormLabel>Номер телефона</FormLabel>
           <Input onChange={(e) => setPhoneNumber(e.target.value)} />
+          {smallDevice && (
+            <>
+              <FormLabel>Профессия</FormLabel>
+              <Input onChange={(e) => setEmail(e.target.value)} type="email" />
+
+              <FormLabel>Образование</FormLabel>
+              <Input onChange={(e) => setInstagram(e.target.value)} />
+
+              <FormLabel>Зарплата</FormLabel>
+              <Input onChange={(e) => setFacebook(e.target.value)} />
+            </>
+          )}
         </Box>
       </MediaModal>
       {/* ================= */}
-      <Modal sx={{ zIndex: 1 }} open={open} onClose={() => setOpen(false)}>
+      <Modal sx={{ zIndex: 1, overflow: 'scroll' }} open={open} onClose={() => setOpen(false)}>
         <ModalDialog>
           <DialogTitle>Написать разьюме</DialogTitle>
-          <DialogContent>Fill in the information of the project.</DialogContent>
           <div
           // onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
           // event.preventDefault();
           // setOpen(false);
           // }}
+
+          //  maxHeight: 'calc(300% - 2 * var(--Card-padding))', top: '129%'
           >
             <Stack spacing={2}>
               <FormLabel>Заголовок</FormLabel>
@@ -181,9 +194,16 @@ function Home() {
                   <Input onChange={(e) => setResidence(e.target.value)} required />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormLabel>Указать Связь</FormLabel>
+                  {smallDevice ? (
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <FormLabel>Указать след поля</FormLabel>
+                    </div>
+                  ) : (
+                    <FormLabel>Указать Связь</FormLabel>
+                  )}
+
                   <ConnectMediaButton onClick={handleOpen} sx={{ width: '160px' }}>
-                    Связь
+                    {smallDevice ? 'Заполнить поля' : 'Связь'}
                   </ConnectMediaButton>
                   {/* <Input  required /> */}
                 </div>
@@ -201,18 +221,22 @@ function Home() {
                   gap: '20px',
                   flexDirection: smallDevice ? 'column' : 'row',
                 }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormLabel>Профессия</FormLabel>
-                  <Input onChange={(e) => setProfession(e.target.value)} required />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormLabel>Образование</FormLabel>
-                  <Input onChange={(e) => setEducation(e.target.value)} />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormLabel>Зарплата</FormLabel>
-                  <Input onChange={(e) => setSalary(e.target.value)} required />
-                </div>
+                {!smallDevice && (
+                  <>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <FormLabel>Профессия</FormLabel>
+                      <Input onChange={(e) => setProfession(e.target.value)} required />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <FormLabel>Образование</FormLabel>
+                      <Input onChange={(e) => setEducation(e.target.value)} />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <FormLabel>Зарплата</FormLabel>
+                      <Input onChange={(e) => setSalary(e.target.value)} required />
+                    </div>
+                  </>
+                )}
               </div>
               <FormLabel>Доп. Информация</FormLabel>
               <TextField
@@ -225,7 +249,7 @@ function Home() {
                 onChange={(e) => setDesc(e.target.value)}
               />
               <FormControl></FormControl>
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '-11px' }}>
                 <Button onClick={createResume} sx={{ width: '150px' }} variant="text">
                   Создать
                 </Button>
