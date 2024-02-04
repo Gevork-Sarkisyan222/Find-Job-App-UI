@@ -152,13 +152,13 @@ function Home() {
           {smallDevice && (
             <>
               <FormLabel>Профессия</FormLabel>
-              <Input onChange={(e) => setEmail(e.target.value)} type="email" />
+              <Input onChange={(e) => setProfession(e.target.value)} />
 
               <FormLabel>Образование</FormLabel>
-              <Input onChange={(e) => setInstagram(e.target.value)} />
+              <Input onChange={(e) => setEducation(e.target.value)} />
 
               <FormLabel>Зарплата</FormLabel>
-              <Input onChange={(e) => setFacebook(e.target.value)} />
+              <Input onChange={(e) => setSalary(e.target.value)} />
             </>
           )}
         </Box>
