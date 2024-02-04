@@ -170,7 +170,7 @@ const ResumeCard: React.FC<ResumeProps> = ({
       if (professionEdit !== '') data.profession = professionEdit;
       if (educationEdit !== '') data.education = educationEdit;
       if (salaryEdit !== '') data.salary = salaryEdit;
-      if (descEdit !== '') data.data = salaryEdit;
+      if (descEdit !== '') data.desc = descEdit;
 
       if (Object.keys(data).length === 0) {
         console.warn('Нет изменений для сохранения');
