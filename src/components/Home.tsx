@@ -21,6 +21,7 @@ import { isAuthenticated } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { VariantType, useSnackbar } from 'notistack';
 import axios from '../axios';
+import NotFoundValue from './NotFoundValue';
 
 interface ResumeProps {
   _id: string;
@@ -39,7 +40,11 @@ interface ResumeProps {
   userEmail: string;
 }
 
-function Home() {
+interface HomeProps {
+  search: string;
+}
+
+const Home: React.FC<HomeProps> = ({ search }) => {
   const isAuthenticatedUser = useSelector(isAuthenticated);
   const [resumes, setResumes] = useState<ResumeProps[]>([]);
   const [open, setOpen] = React.useState<boolean>(false);
@@ -106,7 +111,7 @@ function Home() {
         title,
         fullName,
         residence,
-        email,
+        ...(email && { email }),
         instagram,
         facebook,
         phoneNumber,
@@ -123,6 +128,10 @@ function Home() {
       alert('Не удалось создать резьюме');
     }
   };
+
+  const filteredResumes = resumes.filter((resume) =>
+    resume.title.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
     <>
@@ -277,31 +286,35 @@ function Home() {
         />
         <div className="wrapper">
           <div className="resume-card">
-            {resumes.map((resume) => (
-              <ResumeCard
-                key={resume?._id}
-                setRenderList={setRenderList}
-                _id={resume?._id}
-                title={resume?.title}
-                fullName={resume?.fullName}
-                residence={resume?.residence}
-                email={resume?.email}
-                profession={resume?.profession}
-                education={resume?.education}
-                desc={resume?.desc}
-                salary={resume?.salary}
-                createdAt={resume?.createdAt}
-                instagram={resume?.instagram}
-                facebook={resume?.facebook}
-                phoneNumber={resume?.phoneNumber}
-                userEmail={resume?.userEmail}
-              />
-            ))}
+            {filteredResumes.length === 0 ? (
+              <NotFoundValue search={search} />
+            ) : (
+              filteredResumes.map((resume: ResumeProps) => (
+                <ResumeCard
+                  key={resume?._id}
+                  setRenderList={setRenderList}
+                  _id={resume?._id}
+                  title={resume?.title}
+                  fullName={resume?.fullName}
+                  residence={resume?.residence}
+                  email={resume?.email}
+                  profession={resume?.profession}
+                  education={resume?.education}
+                  desc={resume?.desc}
+                  salary={resume?.salary}
+                  createdAt={resume?.createdAt}
+                  instagram={resume?.instagram}
+                  facebook={resume?.facebook}
+                  phoneNumber={resume?.phoneNumber}
+                  userEmail={resume?.userEmail}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Home;

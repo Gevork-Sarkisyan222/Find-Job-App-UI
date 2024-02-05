@@ -58,7 +58,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+interface IProps {
+  search: string;
+  setSearch: (search: string) => void;
+}
+
+export const PrimarySearchAppBar: React.FC<IProps> = ({ search, setSearch }) => {
   const isAuthenticatedUser = useSelector(isAuthenticated);
   // change any
   const { currentUser } = useSelector((state: any) => state.user);
@@ -215,7 +220,12 @@ export default function PrimarySearchAppBar() {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Найти..." inputProps={{ 'aria-label': 'search' }} />
+            <StyledInputBase
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Найти..."
+              inputProps={{ 'aria-label': 'search' }}
+            />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -251,4 +261,6 @@ export default function PrimarySearchAppBar() {
       {renderMenu}
     </Box>
   );
-}
+};
+
+export default PrimarySearchAppBar;

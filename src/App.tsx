@@ -19,11 +19,13 @@ function App() {
     dispatch(fetchAuthMe());
   }, []);
 
+  const [search, setSearch] = React.useState('');
+
   return (
     <div className="App">
-      <Navbar />
+      <Navbar search={search} setSearch={setSearch} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home search={search} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
