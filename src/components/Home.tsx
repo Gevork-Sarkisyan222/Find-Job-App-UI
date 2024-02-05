@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux';
 import { VariantType, useSnackbar } from 'notistack';
 import axios from '../axios';
 import NotFoundValue from './NotFoundValue';
+import Skeleton from './skeletons/Skeleton';
 
 interface ResumeProps {
   _id: string;
@@ -47,6 +48,11 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ search }) => {
   const isAuthenticatedUser = useSelector(isAuthenticated);
   const [resumes, setResumes] = useState<ResumeProps[]>([]);
+
+  // skeletons
+  const [loading, setLoading] = React.useState(true);
+  // ==============
+
   const [open, setOpen] = React.useState<boolean>(false);
   const smallDevice = useMediaQuery('(max-width:600px)');
   const [renderList, setRenderList] = useState();
@@ -68,9 +74,14 @@ const Home: React.FC<HomeProps> = ({ search }) => {
 
   useEffect(() => {
     const getAllResumes = async () => {
-      const res = await axios.get('resume/lists');
-      setResumes(res?.data);
-      console.log(res?.data);
+      try {
+        const res = await axios.get('resume/lists');
+        setResumes(res?.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Ошибка при подгрузке всех резьме:', err);
+        setLoading(false);
+      }
     };
 
     getAllResumes();
@@ -286,7 +297,23 @@ const Home: React.FC<HomeProps> = ({ search }) => {
         />
         <div className="wrapper">
           <div className="resume-card">
-            {filteredResumes.length === 0 ? (
+            {loading ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
+                  gap: '57px',
+                }}>
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+              </div>
+            ) : filteredResumes.length === 0 ? (
               <NotFoundValue search={search} />
             ) : (
               filteredResumes.map((resume: ResumeProps) => (
